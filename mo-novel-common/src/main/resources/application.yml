@@ -3,9 +3,13 @@ server:
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/mo_novel?useUnicode=true&useSSL=false&characterEncoding=utf8&serverTimezone=Asia/Shanghai
+    url: jdbc:mysql://localhost:3306/rice_novel?useUnicode=true&useSSL=false&characterEncoding=utf8&serverTimezone=Asia/Shanghai
     username: root
-    password: 321
+    password: 123456
+
+  redis:
+    host:42.194.194.84
+    port:6379
 
 mybatis-plus:
   mapper-locations: classpath*:/mapper/**Mapper.xml
@@ -27,12 +31,13 @@ jwt:
   # JWT 加解密使用的密钥/盐
   secret: yeb-secret
   #JWT的超期限时间（60*60*24）
-  expiration: 604800
+  expiration: 612800
   #JWT 负载中拿到开头
   tokenHead: Bearer
 
 heng:
   jwt:
     secret: f4e2e52034348f86b67cde581c0f9eb5
-    expire: 604800
+    expire: 612800
     header: Authorization
+
