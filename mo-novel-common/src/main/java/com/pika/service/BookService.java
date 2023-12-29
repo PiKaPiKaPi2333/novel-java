@@ -7,7 +7,7 @@ import java.util.List;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.pika.entity.Comment;
-import com.pika.vo.BookQueryVo;
+import com.pika.request.BookQueryRequest;
 
 /**
  * <p>
@@ -18,17 +18,11 @@ import com.pika.vo.BookQueryVo;
  * @since 2023-12-25
  */
 public interface BookService extends IService<Book> {
-    ResponseDTO searchBook(BookQueryVo queryParams);
+    ResponseDTO searchBook(BookQueryRequest queryParams);
 
     ResponseDTO selectBookById(Long bookId);
 
     boolean addVisitCount(Long bookId, Long visitCount);
-
-    ResponseDTO addBookComment(Comment comment);
-
-    ResponseDTO editBookComment(Long commentId, String content);
-
-    boolean existsBookComment(Comment comment);
 
 	List<Book> listclickRank();
 

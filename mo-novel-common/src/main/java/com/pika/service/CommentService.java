@@ -3,7 +3,7 @@ package com.pika.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.pika.common.ResponseDTO;
 import com.pika.entity.Comment;
-import com.pika.vo.CommentQueryVo;
+import com.pika.request.CommentQueryRequest;
 
 /**
  * <p>
@@ -15,11 +15,9 @@ import com.pika.vo.CommentQueryVo;
  */
 public interface CommentService extends IService<Comment> {
 
-	ResponseDTO searchComment(CommentQueryVo queryParams);
+	ResponseDTO searchComment(CommentQueryRequest queryParams);
 
 	void saveComment(Comment comment);
 
-	boolean existsBookComment(Comment comment);
-
-	ResponseDTO editBookComment(Long commentId, String content);
+	ResponseDTO editBookComment(Comment comment);
 }

@@ -8,17 +8,22 @@ import com.pika.common.ResponseDTO;
 import com.pika.common.ResponseStatus;
 import com.pika.entity.Book;
 import com.pika.entity.Comment;
+import com.pika.entity.User;
 import com.pika.exception.BusinessException;
 import com.pika.mapper.BookMapper;
 import com.pika.mapper.CommentMapper;
+import com.pika.mapper.UserMapper;
+import com.pika.response.CommentPageResponse;
 import com.pika.service.CommentService;
-import com.pika.vo.CommentQueryVo;
+import com.pika.request.CommentQueryRequest;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import javax.annotation.Resource;
 
 /**
  * <p>
@@ -30,18 +35,41 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> implements CommentService {
-	@Autowired
-	   private CommentMapper commentMapper;
-	@Autowired
-		private BookMapper bookMapper;
+	@Resource
+    private CommentMapper commentMapper;
+	@Resource
+    private BookMapper bookMapper;
+
+    @Resource
+    private UserMapper userMapper;
+
 	@Override
-	public ResponseDTO searchComment(CommentQueryVo queryParams) {
+	public ResponseDTO searchComment(CommentQueryRequest queryParams) {
 		QueryWrapper<Comment> commentQueryWrapper=new QueryWrapper<>();
 		commentQueryWrapper.eq(StringUtils.checkValNotNull(queryParams.getResourceId()),"resource_id",queryParams.getResourceId());
 		Page<Comment> commentPage = new Page<>(queryParams.getPage(), queryParams.getLimit());
         commentMapper.selectPage(commentPage, commentQueryWrapper);
+
+        List<CommentPageResponse> commentPageResponses=new ArrayList<>();
+        commentPage.getRecords().forEach(comment -> {
+            User commentor=userMapper.selectById(comment.getUserId());
+            CommentPageResponse commentPageResponse=CommentPageResponse.builder()
+                    .id(comment.getId())
+                    .createTime(comment.getCreateTime())
+                    .updateTime(comment.getUpdateTime())
+                    .resourceId(comment.getResourceId())
+                    .resourceType(comment.getResourceType())
+                    .bookName(bookMapper.selectById(comment.getResourceId()).getTitle())
+                    .star(comment.getStar())
+                    .content(comment.getContent())
+                    .userAvatar(commentor.getAvatar())
+                    .userName(commentor.getUsername())
+                    .build();
+            commentPageResponses.add(commentPageResponse);
+        });
+
         HashMap<String, Object> map = new HashMap<>();
-        map.put("items", commentPage.getRecords());
+        map.put("items",commentPageResponses);
         map.put("total", commentPage.getTotal());
         return ResponseDTO.succ(map);
 	}
@@ -49,31 +77,29 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
 	@Override
 	public void saveComment(Comment comment) {
 		 Book book = bookMapper.selectById(comment.getResourceId());
-	        if(StringUtils.checkValNull(book)) throw new BusinessException("小说不存在");
-	        comment.setResourceType((byte) 1);
-	        commentMapper.insert(comment);
+         if(StringUtils.checkValNull(book)) throw new BusinessException("小说不存在");
+         //更新小说的评分
+         Integer commentCount = commentMapper.selectCount(new QueryWrapper<Comment>().eq("resource_id", comment.getResourceId()));
+         book.setScore((book.getScore()*commentCount + comment.getStar())/(commentCount+1));
+         bookMapper.updateById(book);
+         //保存评论
+         comment.setResourceType((byte) 1);
+         commentMapper.insert(comment);
 	}
 	
 
     @Override
-    public ResponseDTO editBookComment(Long commentId, String content)
+    public ResponseDTO editBookComment(Comment comment)
     {
-        Comment comment = commentMapper.selectById(commentId);
-        comment.setContent(content);
+        //修改小说的评分
+        Book book = bookMapper.selectById(comment.getResourceId());
+        if(StringUtils.checkValNull(book)) throw new BusinessException("小说不存在");
+        Comment oldComment = commentMapper.selectById(comment.getId());
+        Integer commentCount = commentMapper.selectCount(new QueryWrapper<Comment>().eq("resource_id", comment.getResourceId()));
+        book.setScore((book.getScore()*commentCount - oldComment.getStar() + comment.getStar())/(commentCount));
+        bookMapper.updateById(book);
         commentMapper.updateById(comment);
-
         return ResponseDTO.succ(ResponseStatus.SUCCESS.getMsg());
     }
 
-	@Override
-    public boolean existsBookComment(Comment comment)
-    {
-        HashMap<String, Object> map = new HashMap<>();
-        map.put("resource_type", comment.getResourceType());
-        map.put("resource_id", comment.getResourceId());
-        map.put("user_id", comment.getUserId());
-        List<Comment> bookComments = commentMapper.selectByMap(map);
-        if (bookComments.isEmpty()) return false;
-        else return true;
-    }
 }

@@ -5,13 +5,13 @@ import com.pika.common.ResponseDTO;
 import com.pika.common.ResponseStatus;
 import com.pika.entity.Book;
 import com.pika.entity.Comment;
+import com.pika.request.BookQueryRequest;
 import com.pika.service.BookService;
 import com.pika.service.CommentService;
-import com.pika.vo.BookQueryVo;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
 import java.util.HashMap;
 import java.util.List;
 
@@ -26,10 +26,10 @@ import java.util.List;
 @RestController
 @RequestMapping("/book")
 public class BookController {
-    @Autowired
+    @Resource
     private BookService bookService;
 
-    @Autowired
+    @Resource
     private CommentService commentService;
 
     @GetMapping("getAll")
@@ -42,8 +42,8 @@ public class BookController {
         return ResponseDTO.succ(map);
     }
 
-    @GetMapping("/search")
-    public ResponseDTO searchBook(BookQueryVo queryParams)
+    @PostMapping("/search")
+    public ResponseDTO searchBook(@RequestBody BookQueryRequest queryParams)
     {
         return bookService.searchBook(queryParams);
     }
@@ -51,6 +51,7 @@ public class BookController {
     @GetMapping("get/{bookId}")
     public ResponseDTO get(@PathVariable("bookId")Long bookId)
     {
+        //增加小说浏览量
         bookService.addVisitCount(bookId, 1L);
         return bookService.selectBookById(bookId);
     }
@@ -74,36 +75,6 @@ public class BookController {
     {
         bookService.removeById(bookId);
         return ResponseDTO.succ("成功删除小说");
-    }
-
-
-    @PostMapping("addBookComment")
-    public ResponseDTO addBookComment(@Validated Comment comment)
-    {
-        return bookService.addBookComment(comment);
-    }
-
-    @PostMapping("editBookComment")
-    public ResponseDTO editBookComment(Long commentId, String content)
-    {
-        return bookService.editBookComment(commentId, content);
-    }
-
-    @GetMapping("deleteBookComment/{commentId}")
-    public ResponseDTO deleteBookComment(@PathVariable Long commentId)
-    {
-        commentService.removeById(commentId);
-        return ResponseDTO.succ(ResponseStatus.SUCCESS.getMsg());
-    }
-
-    @GetMapping("getBookCommentByBookId/{bookId}")
-    public ResponseDTO getBookCommentByBookId(@PathVariable Long bookId)
-    {
-        HashMap<String, Object> map = new HashMap<>();
-        map.put("resource_type", 1);
-        map.put("resource_id", bookId);
-        List<Comment> bookComments = commentService.listByMap(map);
-        return ResponseDTO.succ(bookComments);
     }
     
     @GetMapping("listClickRank")

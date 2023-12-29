@@ -4,10 +4,12 @@ package com.pika.controller;
 import com.pika.common.ResponseDTO;
 import com.pika.entity.BookIndex;
 import com.pika.service.BookIndexService;
-import com.pika.vo.BookIndexQueryVo;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.pika.request.BookIndexHistoryRequest;
+import com.pika.request.BookIndexQueryRequest;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import javax.annotation.Resource;
 
 /**
  * <p>
@@ -20,20 +22,28 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/bookindex")
 public class BookIndexController {
-    @Autowired
+    @Resource
     private BookIndexService bookIndexService;
 
-    @GetMapping("search")
-    public ResponseDTO searchBookIndex(BookIndexQueryVo bookIndexQueryVo)
+    @GetMapping("getList/{bookId}")
+    public ResponseDTO listBookIndex(@PathVariable Long bookId)
     {
-        return bookIndexService.searchBookIndex(bookIndexQueryVo);
+        return bookIndexService.listBookIndex(bookId);
     }
 
-    @GetMapping("get/{bookIndexId}")
-    public ResponseDTO getBookIndex(@PathVariable Long bookIndexId)
+    //翻页
+    @PostMapping("search")
+    public ResponseDTO searchBookIndex(@RequestBody BookIndexQueryRequest bookIndexQueryRequest)
     {
-        return bookIndexService.getBookIndex(bookIndexId);
+        return bookIndexService.searchBookIndex(bookIndexQueryRequest);
     }
+    //根据indexId获得内容
+    @GetMapping("get/{bookIndexId}/{userId}")
+    public ResponseDTO getBookIndex(@PathVariable("bookIndexId") Long bookIndexId,@PathVariable("userId") Long userId){
+        return bookIndexService.getBookIndex(bookIndexId,userId);
+    }
+
+
 
     @PostMapping("add")
     public ResponseDTO addBookIndex(@Validated @RequestBody BookIndex bookIndex)

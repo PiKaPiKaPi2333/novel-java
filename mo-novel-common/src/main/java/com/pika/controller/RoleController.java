@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.annotation.Resource;
+
 /**
  * <p>
  * 角色表 前端控制器
@@ -21,7 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/role")
 public class RoleController {
-    @Autowired
+    @Resource
     private RoleService roleService;
 
     @PostMapping("/add")

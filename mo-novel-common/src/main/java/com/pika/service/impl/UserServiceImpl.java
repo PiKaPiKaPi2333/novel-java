@@ -10,12 +10,12 @@ import com.pika.service.UserService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.pika.util.JwtUtil;
 import com.pika.util.MD5Util;
-import com.pika.vo.LoginVo;
-import com.pika.vo.UserInfoVo;
-import com.pika.vo.UserQueryVo;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.pika.request.LoginRequest;
+import com.pika.request.UserInfoVo;
+import com.pika.request.UserQueryRequest;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.HashMap;
 import java.util.Objects;
 
@@ -29,11 +29,11 @@ import java.util.Objects;
  */
 @Service
 public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements UserService  {
-    @Autowired
+    @Resource
     private UserMapper userMapper;
 
 
-/*    @Autowired
+/*    @Resource
     private PasswordEncoder passwordEncoder;*/
 
     @Override
@@ -46,15 +46,15 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     }
 
     @Override
-    public ResponseDTO login(LoginVo loginVo)
+    public ResponseDTO login(LoginRequest loginRequest)
     {
-        User user = getUserByUsername(loginVo.getUsername());
+        User user = getUserByUsername(loginRequest.getUsername());
         if(user == null)
         {
             return ResponseDTO.fail("账户不存在");
         }
 
-        if (!Objects.equals(MD5Util.md5(loginVo.getPassword()), user.getPassword()))
+        if (!Objects.equals(MD5Util.md5(loginRequest.getPassword()), user.getPassword()))
         {
             return ResponseDTO.fail("密码错误");
         }
@@ -88,16 +88,16 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     }
 
     @Override
-    public ResponseDTO searchUser(UserQueryVo userQueryVo)
+    public ResponseDTO searchUser(UserQueryRequest userQueryRequest)
     {
         QueryWrapper<User> userQueryWrapper = new QueryWrapper<>();
-        userQueryWrapper.eq(StringUtils.checkValNotNull(userQueryVo.getSex()), "sex", userQueryVo.getSex())
-                .eq(StringUtils.checkValNotNull(userQueryVo.getRoleId()), "role_id", userQueryVo.getRoleId())
-                .like(StringUtils.isNotBlank(userQueryVo.getUsername()), "username", userQueryVo.getUsername())
-                .like(StringUtils.isNotBlank(userQueryVo.getEmail()), "email", userQueryVo.getEmail())
-                .like(StringUtils.isNotBlank(userQueryVo.getMobile()), "mobile", userQueryVo.getMobile());
+        userQueryWrapper.eq(StringUtils.checkValNotNull(userQueryRequest.getSex()), "sex", userQueryRequest.getSex())
+                .eq(StringUtils.checkValNotNull(userQueryRequest.getRoleId()), "role_id", userQueryRequest.getRoleId())
+                .like(StringUtils.isNotBlank(userQueryRequest.getUsername()), "username", userQueryRequest.getUsername())
+                .like(StringUtils.isNotBlank(userQueryRequest.getEmail()), "email", userQueryRequest.getEmail())
+                .like(StringUtils.isNotBlank(userQueryRequest.getMobile()), "mobile", userQueryRequest.getMobile());
 
-        Page<User> page = new Page<>(userQueryVo.getPage(), userQueryVo.getLimit());
+        Page<User> page = new Page<>(userQueryRequest.getPage(), userQueryRequest.getLimit());
         userMapper.selectPage(page, userQueryWrapper);
         HashMap<String, Object> map = new HashMap<>();
         map.put("items", page.getRecords());
@@ -115,5 +115,15 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
             return ResponseDTO.fail("注册失败");
         return ResponseDTO.succ("注册成功");
     }
+
+    @Override
+    public ResponseDTO getUser(Long userId) {
+        User user=userMapper.selectById(userId);
+        if(null==user){
+            return ResponseDTO.fail("用户不存在");
+        }
+        return ResponseDTO.succ(user);
+    }
+
 
 }

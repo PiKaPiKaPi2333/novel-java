@@ -1,4 +1,4 @@
-package com.pika.vo;
+package com.pika.request;
 
 import com.pika.common.BaseQuery;
 
@@ -10,7 +10,7 @@ import lombok.Data;
  */
 
 @Data
-public class BookshelfQueryVo extends BaseQuery {
+public class BookshelfQueryRequest extends BaseQuery {
     private Long userId;
     private Byte readingProcess;
     private Long bookId;

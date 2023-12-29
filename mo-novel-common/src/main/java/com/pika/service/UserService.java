@@ -3,8 +3,8 @@ package com.pika.service;
 import com.pika.common.ResponseDTO;
 import com.pika.entity.User;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.pika.vo.LoginVo;
-import com.pika.vo.UserQueryVo;
+import com.pika.request.LoginRequest;
+import com.pika.request.UserQueryRequest;
 
 /**
  * <p>
@@ -17,11 +17,13 @@ import com.pika.vo.UserQueryVo;
 public interface UserService extends IService<User> {
     User getUserByUsername(String username);
 
-    ResponseDTO login(LoginVo loginVo);
+    ResponseDTO login(LoginRequest loginRequest);
 
     ResponseDTO info(String token);
 
-    ResponseDTO searchUser(UserQueryVo userQueryVo);
+    ResponseDTO searchUser(UserQueryRequest userQueryRequest);
 
     ResponseDTO register(User user);
+
+    ResponseDTO getUser(Long userId);
 }

@@ -3,11 +3,12 @@ package com.pika.controller;
 import com.pika.common.ResponseDTO;
 import com.pika.entity.User;
 import com.pika.service.UserService;
-import com.pika.vo.LoginVo;
+import com.pika.request.LoginRequest;
 import org.apache.shiro.SecurityUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import javax.annotation.Resource;
 
 /**
  * 用户认证
@@ -18,7 +19,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/auth")
 public class AuthController {
-    @Autowired
+    @Resource
     private UserService userService;
 
     @PostMapping("register")
@@ -38,13 +39,13 @@ public class AuthController {
     /**
      * jwt+shiro
      * 一次认证 二次认证在Realm
-     * @param loginVo
+     * @param loginRequest
      * @return
      */
     @PostMapping("/login")
-    public ResponseDTO login(@RequestBody LoginVo loginVo)
+    public ResponseDTO login(@RequestBody LoginRequest loginRequest)
     {
-        return userService.login(loginVo);
+        return userService.login(loginRequest);
     }
 
     @GetMapping("/info")

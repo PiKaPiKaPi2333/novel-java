@@ -4,11 +4,12 @@ package com.pika.controller;
 import com.pika.common.ResponseDTO;
 import com.pika.entity.User;
 import com.pika.service.UserService;
-import com.pika.vo.UserQueryVo;
+import com.pika.request.UserQueryRequest;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import javax.annotation.Resource;
 
 
 /**
@@ -23,14 +24,19 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/user")
 public class UserController {
-    @Autowired
+    @Resource
     private UserService userService;
 
 
     @GetMapping("/search")
-    public ResponseDTO searchUser(UserQueryVo userQueryVo)
+    public ResponseDTO searchUser(UserQueryRequest userQueryRequest)
     {
-        return userService.searchUser(userQueryVo);
+        return userService.searchUser(userQueryRequest);
+    }
+
+    @GetMapping("/get/{userId}")
+    public ResponseDTO getUser(@PathVariable Long userId){
+        return userService.getUser(userId);
     }
 
     @PostMapping("add")

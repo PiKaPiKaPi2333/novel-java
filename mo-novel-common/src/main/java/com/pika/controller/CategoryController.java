@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.annotation.Resource;
 import java.util.HashMap;
 
 /**
@@ -23,7 +24,7 @@ import java.util.HashMap;
 @RestController
 @RequestMapping("/category")
 public class CategoryController {
-    @Autowired
+    @Resource
     private CategoryService categoryService;
 
     @PostMapping("/add")

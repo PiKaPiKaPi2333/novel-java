@@ -12,6 +12,7 @@ import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import javax.annotation.Resource;
 import java.util.HashSet;
 
 @Slf4j
@@ -19,10 +20,10 @@ import java.util.HashSet;
  * 通过数据库查询并添加用户的授权认证到Subject
  */
 public class AccountRealm extends AuthorizingRealm {
-    @Autowired
+    @Resource
     private UserService userService;
 
-    @Autowired
+    @Resource
     private com.pika.shiro.JwtUtil jwtUtil;
 
     /**

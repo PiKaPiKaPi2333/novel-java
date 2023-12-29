@@ -1,4 +1,4 @@
-package com.pika.vo;
+package com.pika.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

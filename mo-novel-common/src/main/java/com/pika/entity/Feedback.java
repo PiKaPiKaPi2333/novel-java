@@ -8,22 +8,21 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
 /**
- * <p>
- * 小说五星评分
- * </p>
- *
- * @author PIKAPIKAPI
- * @since 2023-12-28
+ * @Author yuxin.qiu
+ * @Date 2023/12/21
  */
+
 @Data
 @EqualsAndHashCode(callSuper = false)
-@TableName("t_rating")
-@ApiModel(value="Rating对象", description="小说五星评分")
-public class Rating implements Serializable {
+@TableName("t_feedback")
+@ApiModel(value="Feedback对象", description="用户反馈表")
+public class Feedback implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -37,14 +36,14 @@ public class Rating implements Serializable {
     @ApiModelProperty(value = "修改时间")
     private LocalDateTime updateTime;
 
-    @ApiModelProperty(value = "小说评分（五星制）")
-    private Byte start;
-
     @ApiModelProperty(value = "用户ID")
     private Long userId;
 
-    @ApiModelProperty(value = "小说ID")
-    private Long bookId;
+    @ApiModelProperty(value = "反馈内容")
+    private String content;
+
+    @ApiModelProperty(value = "是否完成 1 未完成 2 已完成")
+    private Byte done;
 
 
 }

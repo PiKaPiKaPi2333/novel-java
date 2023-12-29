@@ -6,10 +6,18 @@ spring:
     url: jdbc:mysql://localhost:3306/rice_novel?useUnicode=true&useSSL=false&characterEncoding=utf8&serverTimezone=Asia/Shanghai
     username: root
     password: 123456
-
   redis:
-    host:42.194.194.84
-    port:6379
+    host: localhost
+    port: 6666
+    jedis:
+      pool:
+        max-active: 8
+        max-wait:  1ms
+        max-idle: 4
+        min-idel: 0
+  elasticsearch:
+    rest:
+      uris: http://42.194.194.84:9200
 
 mybatis-plus:
   mapper-locations: classpath*:/mapper/**Mapper.xml
@@ -23,7 +31,7 @@ mybatis-plus:
 shiro-redis:
   enabled: true
   redis-manager:
-    host: 192.168.126.151:8000
+    host: localhost:6666
 
 jwt:
   # JWT存储的请求头

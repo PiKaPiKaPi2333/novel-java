@@ -1,7 +1,6 @@
 package com.pika.controller;
 
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,7 +12,9 @@ import com.pika.common.ResponseDTO;
 import com.pika.common.ResponseStatus;
 import com.pika.entity.Comment;
 import com.pika.service.CommentService;
-import com.pika.vo.CommentQueryVo;
+import com.pika.request.CommentQueryRequest;
+
+import javax.annotation.Resource;
 
 /**
  * <p>
@@ -26,11 +27,11 @@ import com.pika.vo.CommentQueryVo;
 @RestController
 @RequestMapping("/bookcomment")
 public class CommentController {
-	 @Autowired
+	 @Resource
 	 private CommentService commentservice;
 	 
 	 @GetMapping("search")
-	 public ResponseDTO searchComment(CommentQueryVo queryParams) {
+	 public ResponseDTO searchComment(CommentQueryRequest queryParams) {
 		 return commentservice.searchComment(queryParams);
 	 }
 	 
@@ -39,6 +40,11 @@ public class CommentController {
 	    {
 	        commentservice.saveComment(comment);
 	        return ResponseDTO.succ("成功添加评论");
+	  }
+
+	  @PostMapping("edit")
+	  public ResponseDTO editComment(@RequestBody Comment comment){
+		  return commentservice.editBookComment(comment);
 	  }
 	 
 	 @GetMapping("delete/{id}")

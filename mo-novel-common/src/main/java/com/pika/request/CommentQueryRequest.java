@@ -1,10 +1,10 @@
-package com.pika.vo;
+package com.pika.request;
 
 import com.pika.common.BaseQuery;
 
 import lombok.Data;
 
 @Data
-public class CommentQueryVo extends BaseQuery {
+public class CommentQueryRequest extends BaseQuery {
 	private Long resourceId;
 }

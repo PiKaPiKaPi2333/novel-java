@@ -16,16 +16,17 @@
         <result column="status" property="status" />
         <result column="word_count" property="wordCount" />
         <result column="visit_count" property="visitCount" />
-        <association property="category" column="category_id"
-                     select="com.pika.mapper.CategoryMapper.selectById"/>
+
     </resultMap>
+
+
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
         id, create_time, update_time, title, author_name, channel, category_id, introduction, cover, status, word_count, visit_count
     </sql>
 
-    <!--<select id="searchByPage" parameterType="com.pika.vo.BookQueryVo" resultMap="BaseResultMap">
+    <!--<select id="searchByPage" parameterType="com.pika.request.BookQueryRequest" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List" />
         from t_book where word_count > 0

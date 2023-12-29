@@ -1,4 +1,4 @@
-package com.pika.vo;
+package com.pika.request;
 
 import com.pika.common.BaseQuery;
 import lombok.Data;
@@ -13,7 +13,7 @@ import java.util.Date;
  */
 @Data
 @Accessors(chain = true)
-public class BookQueryVo extends BaseQuery {
+public class BookQueryRequest extends BaseQuery {
     // 关键字: 书名，作者
     private String keyword;
 

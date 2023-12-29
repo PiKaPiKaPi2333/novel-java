@@ -3,7 +3,8 @@ package com.pika.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.pika.common.ResponseDTO;
 import com.pika.entity.BookIndex;
-import com.pika.vo.BookIndexQueryVo;
+import com.pika.request.BookIndexHistoryRequest;
+import com.pika.request.BookIndexQueryRequest;
 
 /**
  * <p>
@@ -20,7 +21,9 @@ public interface BookIndexService extends IService<BookIndex> {
 
     ResponseDTO editBookIndex(BookIndex bookIndex);
 
-    ResponseDTO searchBookIndex(BookIndexQueryVo bookIndexQueryVo);
+    ResponseDTO searchBookIndex(BookIndexQueryRequest bookIndexQueryRequest);
 
-    ResponseDTO getBookIndex(Long bookIndexId);
+    ResponseDTO getBookIndex(Long bookIndexId,Long userId);
+
+    ResponseDTO listBookIndex(Long bookId);
 }

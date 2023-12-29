@@ -24,6 +24,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import javax.annotation.Resource;
 import javax.servlet.Filter;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -34,7 +35,7 @@ import java.util.Map;
  */
 @Configuration
 public class ShiroConfig {
-    @Autowired
+    @Resource
     private JWTFilter jwtFilter;
 
     @Bean

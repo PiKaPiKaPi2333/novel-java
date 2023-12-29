@@ -9,20 +9,20 @@ import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.pika.entity.Book;
 import com.pika.entity.User;
 import com.pika.mapper.BookMapper;
-import com.pika.vo.BookQueryVo;
+import com.pika.request.BookQueryRequest;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import javax.annotation.Resource;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
 @SpringBootTest
 class BookServiceTest {
-    @Autowired
+    @Resource
     private BookMapper bookMapper;
-    @Autowired
+    @Resource
     private BookService bookService;
 
 
@@ -40,7 +40,7 @@ class BookServiceTest {
     public void testWrapper()
     {
         QueryWrapper<Book> bookQueryWrapper = new QueryWrapper<>();
-        BookQueryVo queryParams = new BookQueryVo()
+        BookQueryRequest queryParams = new BookQueryRequest()
                 .setBookStatus((byte) 1)
                 .setCategoryId(3)
                 .setSort("update_time") // 配合下面orderByDesc

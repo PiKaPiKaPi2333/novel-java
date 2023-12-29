@@ -54,5 +54,9 @@ public class Comment implements Serializable {
     @NotBlank(message = "评论内容不能为空")
     private String content;
 
+    @ApiModelProperty(value = "小说评分（五星制）")
+    @NotNull(message = "请打个评分吧~")
+    private Byte star;
+
 
 }

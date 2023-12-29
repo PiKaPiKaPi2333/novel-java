@@ -1,4 +1,4 @@
-package com.pika.vo;
+package com.pika.request;
 
 import com.pika.common.BaseQuery;
 import lombok.Data;
@@ -8,7 +8,7 @@ import lombok.Data;
  * @since 2023-05-05
  */
 @Data
-public class UserQueryVo extends BaseQuery {
+public class UserQueryRequest extends BaseQuery {
     private String username;
     private String mobile;
     private String email;

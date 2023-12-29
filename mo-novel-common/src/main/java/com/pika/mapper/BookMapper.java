@@ -3,6 +3,8 @@ package com.pika.mapper;
 import com.pika.entity.Book;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
+import java.util.List;
+
 /**
  * <p>
  * 小说信息表 Mapper 接口

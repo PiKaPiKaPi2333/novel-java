@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -22,6 +23,7 @@ import java.time.LocalDateTime;
  * @since 2023-12-28
  */
 @Data
+@Builder
 @EqualsAndHashCode(callSuper = false)
 @TableName("t_book")
 @ApiModel(value="Book对象", description="小说信息表")
@@ -69,7 +71,7 @@ public class Book implements Serializable {
     @ApiModelProperty(value = "总点击量")
     private Long visitCount;
 
-    @TableField(exist = false)
-    private Category category;
+    @ApiModelProperty(value = "评分")
+    private Float score;
 
 }

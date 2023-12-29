@@ -1,7 +1,7 @@
 package com.pika.util;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.pika.vo.UserInfoVo;
+import com.pika.request.UserInfoVo;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;

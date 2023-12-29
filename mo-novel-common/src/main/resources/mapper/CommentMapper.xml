@@ -11,11 +11,12 @@
         <result column="resource_id" property="resourceId" />
         <result column="user_id" property="userId" />
         <result column="content" property="content" />
+        <result column="star" property="star"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, create_time, update_time, resource_type, resource_id, user_id, content
+        id, create_time, update_time, resource_type, resource_id, user_id, content, star
     </sql>
 
 </mapper>

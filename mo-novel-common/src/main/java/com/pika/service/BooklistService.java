@@ -1,6 +1,7 @@
 package com.pika.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.pika.common.ResponseDTO;
 import com.pika.entity.Booklist;
 
 /**
@@ -13,4 +14,5 @@ import com.pika.entity.Booklist;
  */
 public interface BooklistService extends IService<Booklist> {
 
+    ResponseDTO getRecommendList(Long userId);
 }

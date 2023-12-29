@@ -1,0 +1,56 @@
+//添加book索引
+
+PUT /rice_novel_book
+{
+  "mappings": {
+    "properties": {
+      "name": {
+        "type": "object",
+        "properties": {
+          "firstName": {
+            "type": "keyword"
+          },
+          "lastName": {
+            "type": "keyword"
+          }
+        }
+      },
+      "email": {
+        "type": "keyword",
+        "index": false
+      },
+      "info": {
+        "type": "text",
+        "analyzer": "ik_smart"
+      }
+    }
+  }
+}
+
+//添加content索引
+PUT /rice_novel_content
+{
+  "mappings": {
+    "properties": {
+      "name": {
+        "type": "object",
+        "properties": {
+          "firstName": {
+            "type": "keyword"
+          },
+          "lastName": {
+            "type": "keyword"
+          }
+        }
+      },
+      "email": {
+        "type": "keyword",
+        "index": false
+      },
+      "info": {
+        "type": "text",
+        "analyzer": "ik_smart"
+      }
+    }
+  }
+}

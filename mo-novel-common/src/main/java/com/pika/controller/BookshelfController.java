@@ -7,12 +7,12 @@ import com.pika.common.ResponseDTO;
 import com.pika.common.ResponseStatus;
 import com.pika.entity.Bookshelf;
 import com.pika.service.BookshelfService;
-import com.pika.vo.BookshelfQueryVo;
+import com.pika.request.BookshelfQueryRequest;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
 import java.util.HashMap;
 import java.util.List;
 
@@ -27,7 +27,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/bookshelf")
 public class BookshelfController {
-    @Autowired
+    @Resource
     private BookshelfService bookshelfService;
 
     @PostMapping("add")
@@ -61,7 +61,7 @@ public class BookshelfController {
     }
     
     @GetMapping("search")
-    public ResponseDTO searchBookshelf(BookshelfQueryVo bookshelfqueryvo)
+    public ResponseDTO searchBookshelf(BookshelfQueryRequest bookshelfqueryvo)
     {
     	Long userId=bookshelfqueryvo.getUserId();
     	Long bookId=bookshelfqueryvo.getBookId();
@@ -72,11 +72,6 @@ public class BookshelfController {
         return ResponseDTO.succ(bookshelves);
     }
 
-    @GetMapping("getRecommandBooks")
-    public ResponseDTO getRecommandBooks(@PathVariable Long userId){
-        //基于协同过滤算法实现
-        return null;
-    }
     
 }
 

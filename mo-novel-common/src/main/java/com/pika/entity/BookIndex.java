@@ -40,6 +40,9 @@ public class BookIndex implements Serializable {
     @ApiModelProperty(value = "修改时间")
     private LocalDateTime updateTime;
 
+    @ApiModelProperty(value = "章节")
+    @NotNull( message = "章节不能为空")
+    private Integer chapter;
     @ApiModelProperty(value = "小说ID")
     @NotNull( message = "小说ID不能为空")
     private Long bookId;
@@ -57,7 +60,6 @@ public class BookIndex implements Serializable {
 
     @ApiModelProperty(value = "章节内容")
     @TableField(exist = false)
-    @NotBlank(message = "小说内容不能为空")
     private String content;
 
 }
